@@ -1,0 +1,9 @@
+streamlit==1.32.2
+ollama==0.1.29
+langchain==0.1.13
+langchain-community==0.0.29
+langchain-core==0.1.36
+langchain-text-splitters==0.0.1
+chromadb==0.4.24
+tiktoken==0.6.0
+beautifulsoup4==4.12.3
