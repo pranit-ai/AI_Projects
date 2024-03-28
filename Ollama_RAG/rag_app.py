@@ -17,6 +17,11 @@ def process_input(urls, question):
     urls_list = urls.split("\n")
     docs = [WebBaseLoader(url).load() for url in urls_list]
     docs_list = [item for sublist in docs for item in sublist]
+
+    # texts = [doc.text for doc in docs_list]
+    # print(texts)
+    with open("data/rag-doc.txt", "w") as f:
+        f.write(str(docs_list[0]))
     
     #split the text into chunks
     text_splitter = CharacterTextSplitter.from_tiktoken_encoder(chunk_size=7500, chunk_overlap=100)
