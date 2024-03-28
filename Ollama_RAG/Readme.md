@@ -33,7 +33,7 @@ To run the application locally:
 
 1. Install the required dependencies listed in `requirements.txt`.
 2. Make sure Ollama and Chroma are properly set up and configured on your system.
-3. Run `streamlit run app.py` in your terminal.
+3. Run `streamlit run rag_app.py` in your terminal.
 4. Access the app in your browser at the provided address.
 
 ## Example
