@@ -14,13 +14,13 @@ This project fine-tunes **DeepSeek-R1-Distill-Llama-8B** for **Medical Question 
 
 ## 📂 Dataset Acknowledgment  
 This model was fine-tuned on a **Medical QA dataset**, curated from Open Life Science AI.  
-We acknowledge the efforts of the dataset creators in making high-quality medical question-answering data available for research and development.  
+I acknowledge the efforts of the dataset creators in making high-quality medical question-answering data available for research and development.  
 
 ---
 
 ## 📚 Model Acknowledgment  
 This project is built upon the **DeepSeek-R1-Distill-Llama-8B** model from **[unsloth](https://huggingface.co/unsloth/DeepSeek-R1-Distill-Llama-8B)**.  
-We acknowledge their contributions to open-source LLM development.  
+I acknowledge their contributions to open-source LLM development.  
 
 ---
 
