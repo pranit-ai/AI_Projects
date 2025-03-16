@@ -41,4 +41,8 @@ This project showcases an **AI-powered workflow** that utilizes natural language
   Worked with **SQLite** for database querying and handling structured data in real-time.
 
 - **Automation Tools:**  
-  Utilized **n8n** for automation of the workflow, ensuring seamless interaction between the Chat UI, OpenAI, and the SQLite database
+  Utilized **n8n** for automation of the workflow, ensuring seamless interaction between the Chat UI, OpenAI, and the SQLite database.
+
+# Conclusion
+
+This project demonstrates the power of AI-driven automation in making database querying accessible and efficient for non-technical users. By combining natural language processing with SQL querying and database management, users can easily retrieve and analyze data without needing advanced technical knowledge.
