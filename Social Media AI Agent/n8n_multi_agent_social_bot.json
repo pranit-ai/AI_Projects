@@ -1,0 +1,497 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "model": "llama3.2-vision:latest",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
+      "typeVersion": 1,
+      "position": [
+        -416,
+        84
+      ],
+      "id": "79a25381-1aa0-4568-9705-448a62ac5108",
+      "name": "Ollama Chat Model",
+      "credentials": {
+        "ollamaApi": {
+          "id": "43fJl6CNwcm4d9jh",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {
+          "download": true
+        }
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -416,
+        -244
+      ],
+      "id": "bf27eb62-6135-4506-a0c9-d25704a9fbb7",
+      "name": "Telegram Trigger",
+      "webhookId": "d88f9415-ed9b-4709-a4c9-18db3a6b975b",
+      "credentials": {
+        "telegramApi": {
+          "id": "RZmBplDegBaKT3lL",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        104,
+        -144
+      ],
+      "id": "51134e80-0b2a-4685-8e62-fb568141481e",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "Os9vHA2ZPIQQGEB1",
+          "name": "n8n free OpenAI API credits"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        368,
+        0
+      ],
+      "id": "2f05c7cf-d9c3-441b-b9b2-dddcefbf3fca",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "Os9vHA2ZPIQQGEB1",
+          "name": "n8n free OpenAI API credits"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=I am sending you an image from a Telegram bot. Please describe everything you see in detail. Focus on the objects, the setting, and any text you can find. This description will be used to write a social media post.",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        32,
+        -368
+      ],
+      "id": "6ad4358c-d70f-4b31-b1b7-d66738e079d4",
+      "name": "Visionary Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        808,
+        -20
+      ],
+      "id": "069ecf7d-50ef-496a-bd0d-46b4909be56e",
+      "name": "OpenAI Chat Model2",
+      "credentials": {
+        "openAiApi": {
+          "id": "Os9vHA2ZPIQQGEB1",
+          "name": "n8n free OpenAI API credits"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Original Description: {{ $node[\"Visionary Agent\"].json[\"output\"] }} Draft Caption: {{ $node[\"Creative Writing Agent\"].json[\"output\"] }}",
+        "options": {
+          "systemMessage": "Role: You are the \"Head of Quality Control\" for a high-end minimalist brand.\n\nYour Task: Grade the social media caption provided by the Creative Agent.\n\nGrading Rubric (Total 10 points):\n\nlowercase (3 pts): Is the text 100% lowercase? Deduct 3 points if any capital letters exist.\n\nPunctuation (2 pts): Are there any exclamation points? Deduct 2 points if they are present.\n\nHashtags (2 pts): Are there exactly 3 hashtags?\n\nVibe (3 pts): Does it feel minimalist and poetic, or is it too \"bubbly\" or \"loud\"?\n\nOutput Format: You must provide the final score (e.g., \"Score: 8/10\") followed by a brief one-sentence reason for the deduction if the score is below 10."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        736,
+        -244
+      ],
+      "id": "ce647cd0-a128-4faf-9dca-2412a3deaf09",
+      "name": "Critic Agent"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "6d9c90c7-6ad3-42f4-82de-dc7d2fd3205b",
+              "leftValue": "={{ $json.output.match(/\\d+/)[0].toNumber() }}",
+              "rightValue": 7,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1088,
+        -244
+      ],
+      "id": "1a802cfc-b266-47fb-896a-0b765160fbd6",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "=Tap to copy caption: `{{ $node[\"Creative Writing Agent\"].json[\"output\"] }}`",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "📸 Open Instagram",
+                    "additionalFields": {
+                      "url": "https://www.instagram.com/"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1312,
+        -340
+      ],
+      "id": "49862a72-bfe2-43f2-a49c-d8688beb59af",
+      "name": "Send a text message",
+      "webhookId": "80b8accb-0bc4-4fc0-8282-da96763e4dad",
+      "credentials": {
+        "telegramApi": {
+          "id": "RZmBplDegBaKT3lL",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "=Draft rejected by Critic. Score: {{ $json.output }}. Try again!",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1312,
+        -148
+      ],
+      "id": "b710d0fc-647b-4d6a-a980-f00366d1330b",
+      "name": "Send a text message1",
+      "webhookId": "3478fb84-573e-43c7-b1d3-4c8123d10b85",
+      "credentials": {
+        "telegramApi": {
+          "id": "RZmBplDegBaKT3lL",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Turn this description into a minimalist caption: {{ $node[\"Visionary Agent\"].json[\"output\"] }}",
+        "options": {
+          "systemMessage": "Role: You are PM - the social media brand guru, a Modern Minimalist Curator. \nGoal: Transform a detailed image description into a poetic, aesthetic social media caption. If the user gives you feedback, look at what we've done before and update it.\n\nStyle Guidelines:\n\nFormat: Use mostly lowercase letters for a relaxed, modern feel.\n\nStructure: One or two short phrases maximum. Use periods for emphasis.\n\nHashtags: Include exactly 3 trending hashtags that feel high-end (e.g., #aesthetic, #minimalism).\n\nConstraint: Do not use \"salesy\" language or exclamation points. Keep it under 100 characters for maximum \"white space\" feel."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        384,
+        -244
+      ],
+      "id": "4db8b047-0c95-44b1-9dd5-2046927a0e9f",
+      "name": "Creative Writing Agent"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Telegram Trigger').item.json.message.chat.id }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        512,
+        0
+      ],
+      "id": "f656486c-12af-4dd9-a5da-ab09b7b49542",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $binary ? true : false }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "86954ac2-5333-490d-bc24-ef24041b91a6"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Photo Process"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "e143434b-a9c9-49ce-b560-ca19269fdf01",
+                    "leftValue": "={{ !!$json.message.text }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Edit Request"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -192,
+        -244
+      ],
+      "id": "bcf12851-7d2f-47a5-b12c-bd591c230064",
+      "name": "Switch"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Ollama Chat Model": {
+      "ai_languageModel": [
+        []
+      ]
+    },
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Visionary Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Creative Writing Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Visionary Agent": {
+      "main": [
+        [
+          {
+            "node": "Creative Writing Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Critic Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Critic Agent": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a text message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Creative Writing Agent": {
+      "main": [
+        [
+          {
+            "node": "Critic Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Creative Writing Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Visionary Agent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Creative Writing Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "b087bfbb-aa6c-4e12-916d-fb0ddf6b1095",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "3684bb917e03ed0a8643db688c26c345c09d0c1af0bc4013026f8fcc88f576f3"
+  },
+  "id": "83_Ezrq_YsoPKtvY4NE5f",
+  "tags": []
+}
