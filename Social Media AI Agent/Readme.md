@@ -63,4 +63,3 @@ Unlike linear automations, this workflow supports a **Feedback Loop**:
 ## 📸 Preview
 
 ![Workflow Screenshot](./Social_AI_Agent.png)
-*Insert your n8n canvas screenshot here*
