@@ -60,6 +60,33 @@ Unlike linear automations, this workflow supports a **Feedback Loop**:
 
 ---
 
+## 🛠️ Infrastructure Options: Cloud vs. Local
+
+This workflow is designed with a **Hybrid-Ready** architecture. While the default path uses high-reasoning Cloud LLMs, an **unconnected Ollama node** is included to allow for immediate local transition.
+
+### ⚖️ Strategy Comparison
+
+| Feature | Cloud (OpenAI/Anthropic) | Local (Ollama - Optional) |
+| :--- | :--- | :--- |
+| **Reasoning Power** | High (Best for "Critic" role) | Medium (Best for "Visionary" role) |
+| **Privacy** | Standard API Privacy | **100% Private** (Data stays on-device) |
+| **Cost** | Pay-per-token | **Free** (Unlimited usage) |
+| **Infrastructure** | No setup required | Requires Local GPU + Ngrok Tunnel |
+
+---
+
+## 🏠 Optional: Activating Local Inference (Ollama)
+
+For users prioritizing privacy or zero-cost image processing, the workflow includes a pre-configured (but unconnected) **Ollama node**:
+
+1.  **Install Ollama**: Run `ollama serve` on your local hardware.
+2.  **Model**: Pull a vision-capable model: `ollama pull llama3.2-vision`.
+3.  **Local-to-Cloud Tunnel**: Since Telegram requires a public endpoint, use **Ngrok** to expose your local n8n instance:
+    ```bash
+    ngrok http 5678
+    ```
+4.  **Activation**: Simply connect the Ollama node to the **Switch** output to swap cloud processing for local inference.
+
 ## 📸 Preview
 
 ![Workflow Screenshot](./Social_AI_Agent.png)
